@@ -1,0 +1,46 @@
+# Dependencies - Never commit node_modules
+node_modules/
+*/node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+*/dist/
+**/dist/
+build/
+*/build/
+**/build/
+
+# Vite / Cache
+.vite/
+*/.vite/
+**/.vite/
+*.tsbuildinfo
+.pnp
+.pnp.*
+
+# Environment variables and secrets
+.env
+.env.*
+.env.local
+.env.*.local
+*.env
+*.env.*
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.local.example
+
+# Runtime uploads / logs
+backend/uploads/submissions/*
+!backend/uploads/submissions/.gitkeep
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

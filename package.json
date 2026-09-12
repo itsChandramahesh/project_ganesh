@@ -1,0 +1,11 @@
+{
+  "name": "ganesh-darshan-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root workspace runner for Ganesh Darshan",
+  "scripts": {
+    "dev": "npx -y concurrently -n \"BACKEND,FRONTEND\" -c \"cyan.bold,magenta.bold\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend"
+  }
+}
