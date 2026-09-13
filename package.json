@@ -4,6 +4,8 @@
   "private": true,
   "description": "Root workspace runner for Ganesh Darshan",
   "scripts": {
+    "build": "npm install --prefix backend && npm run build --prefix backend",
+    "start": "npm start --prefix backend",
     "dev": "npx -y concurrently -n \"BACKEND,FRONTEND\" -c \"cyan.bold,magenta.bold\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend": "npm run dev --prefix frontend"
