@@ -30,10 +30,10 @@ export function createApp(): Express {
   );
 
   // Hardened CORS: allow development origin and any configured in CORS_ORIGIN
-  const allowedOrigins = new Set<string>(['http://localhost:5173']);
+  const allowedOrigins = new Set<string>(['http://localhost:5173', 'http://127.0.0.1:5173']);
   if (process.env.CORS_ORIGIN) {
     process.env.CORS_ORIGIN.split(',')
-      .map((o) => o.trim())
+      .map((o) => o.trim().replace(/\/+$/, ''))
       .filter(Boolean)
       .forEach((o) => allowedOrigins.add(o));
   }
@@ -46,13 +46,16 @@ export function createApp(): Express {
           callback(null, true);
           return;
         }
-        if (allowedOrigins.has(origin)) {
+        const normalizedOrigin = origin.replace(/\/+$/, '');
+        if (allowedOrigins.has(normalizedOrigin) || allowedOrigins.has('*')) {
           callback(null, true);
         } else {
           callback(new Error(`CORS error: Origin '${origin}' is not allowed.`));
         }
       },
       credentials: true,
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Admin-Action', 'Accept', 'Origin'],
     }),
   );
   app.use(cookieParser());

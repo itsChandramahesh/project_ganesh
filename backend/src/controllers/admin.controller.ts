@@ -79,7 +79,7 @@ export async function adminLogin (req: Request, res: Response): Promise<void> {
   res.cookie('admin_token', token, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: 'lax',
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 8 * 60 * 60 * 1000
   })
 
@@ -88,6 +88,7 @@ export async function adminLogin (req: Request, res: Response): Promise<void> {
   res.json({
     success: true,
     message: 'Logged in successfully.',
+    token,
     admin: { email }
   })
 }
@@ -97,9 +98,11 @@ export async function adminLogin (req: Request, res: Response): Promise<void> {
  * Clears the admin session cookie.
  */
 export async function adminLogout (_req: Request, res: Response): Promise<void> {
+  const isProduction = process.env.NODE_ENV === 'production'
   res.clearCookie('admin_token', {
     httpOnly: true,
-    sameSite: 'lax'
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax'
   })
   res.json({ success: true, message: 'Logged out successfully.' })
 }
