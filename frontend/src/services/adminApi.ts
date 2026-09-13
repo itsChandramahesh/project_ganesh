@@ -73,6 +73,11 @@ export async function adminLogout(): Promise<{ success: boolean }> {
 }
 
 export async function checkAdminAuth(): Promise<{ authenticated: boolean; email?: string }> {
+  const token = getAdminToken();
+  if (!token) {
+    return { authenticated: false };
+  }
+
   try {
     const res = await fetch(`${API_BASE}/admin/me`, {
       method: 'GET',

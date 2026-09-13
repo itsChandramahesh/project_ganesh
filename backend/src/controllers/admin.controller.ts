@@ -48,15 +48,27 @@ export async function adminLogin (req: Request, res: Response): Promise<void> {
     return
   }
 
+  if (!configuredEmail || !configuredPassword) {
+    console.error(
+      '[Admin Auth] Error: ADMIN_EMAIL or ADMIN_PASSWORD is not set in environment variables on the server.'
+    )
+    res
+      .status(500)
+      .json({ success: false, error: 'Server authentication is not configured. Please set ADMIN_EMAIL and ADMIN_PASSWORD in environment variables.' })
+    return
+  }
+
+  const normalizedInputEmail = typeof email === 'string' ? email.trim().toLowerCase() : ''
+  const normalizedConfigEmail = configuredEmail.toLowerCase()
+
   if (
-    !configuredEmail ||
-    !configuredPassword ||
-    email !== configuredEmail ||
-    password !== configuredPassword
+    normalizedInputEmail !== normalizedConfigEmail ||
+    String(password).trim() !== configuredPassword
   ) {
+    console.warn(`[Admin Auth] Invalid login attempt for: '${email}'`)
     res
       .status(401)
-      .json({ success: false, error: 'Invalid admin credentials.' })
+      .json({ success: false, error: 'Invalid admin credentials. Please check your email and password.' })
     return
   }
 
