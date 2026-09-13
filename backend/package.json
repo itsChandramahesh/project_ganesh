@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "prebuild": "npm install",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -23,6 +24,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^8.7.0",
+    "ganesh-darshan-backend": "file:",
+    "ganesh-darshan-monorepo": "file:..",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^1.4.5-lts.1",
